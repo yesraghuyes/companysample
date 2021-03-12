@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Sales Order Entry{% endblock%}
+{% block content %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <p>{{ msg }}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>Sales Order Entry/Revision</h2>
+  <div class="container">
+  <form action="#" method="post">
+    <div class="form-group">
+    <label for="itemName">Item Name:</label>
+    <select class="form-control" name="itemName" id="itemName">
+      <option value="" disabled selected>Choose your Item</option>
+      {% for itm in items %}
+      {{itm.Name}}
+        <option value="{{itm.itemName}}">{{itm.itemName}}</option>
+      {% endfor %}
+    </select>
+    </div>
+    <div class="form-group">
+    <label for="quantity">Quantity:</label>
+    <p><input type="number" class="form-control" name="quantity" id="quantity" placeholder="Quantity" required></p>
+    </div>
+    <div class="form-group">
+    <label for="remarks">Enter Remarks:</label>
+    <p><textarea name="remarks" class="form-control" id="remarks" rows="4" cols="80" placeholder="Enter Remarks" required></textarea></p>
+    </div>
+
+    <div class="form-group">
+    <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" class="form-control" name="de" value="0">
+    <input type="hidden" class="form-control" name="sohref_id" value="{{ sohref_id }}">
+    <input type="submit" class="btn btn-primary" value="Add New Detail">
+    </div>
+  </form>
+  </div>
+<br>
+    <div class="container">
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">Sales Order Header Editor</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="sample_data" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Serial</th>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Remarks</th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                {% for row in soddata %}
+                                <tr>
+                                    <td data-pk="{{row.id}}"></td>
+                                    <td data-name="itemName" class="itemName" data-type="text" data-pk="{{row.id}}">{{row.itemName}}</td>
+                                    <td data-name="quantity" class="quantity" data-type="number" data-pk="{{row.id}}">{{row.quantity}}</td>
+                                    <td data-name="amount" class="amount" data-type="number" data-pk="{{row.id}}">{{row.amount}}</td>
+                                  <!--
+                                    <select>
+                                        <option value="{{row.Employee}}" disabled selected>{{row.Employee}}</option>
+                                        {% for emp in emps %}
+                                        {{emp.Name}}
+                                          <option value="{{emp.Name}}">{{emp.Name}}</option>
+                                        {% endfor %}
+                                      </select>
+                                      -->
+
+                                    <td data-name="remarks" class="remarks" data-type="text" data-pk="{{row.id}}">{{row.remarks}}</td>
+
+                                    <td>
+                                      <form class="" action="#" method="post">
+                                        <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" class="form-control" name="id" value="{{ row.id }}">
+                                        <input type="hidden" class="form-control" name="sohref_id" value="{{ sohref_id }}">
+                                        <input type="hidden" class="form-control" name="de" value="1">
+                                        <input type="submit" class="btn btn-primary" value="DELETE">
+                                      </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+{% endblock%}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Sales Order Entry{% endblock%}
+{% block content %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <p>{{ msg }}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>Sales Order Entry/Revision</h2>
+  <div class="container">
+  <form action="#" method="post">
+    <div class="form-group">
+    <label for="DocNum">Document Number:</label>
+
+    <p><input type="text" class="form-control" name="DocNum" id="DocNum" placeholder="Document #" required></p>
+    </div>
+    <div class="form-group">
+    <label for="DocDate">Document Date:</label>
+    <p><input type="date" class="form-control" name="DocDate" id="DocDate" format="dd/mm/yyyy" placeholder="DD-MM-YYYY" required></p>
+    </div>
+
+    <div class="form-group">
+    <label for="Employee">Employee:</label>
+    <select class="form-control" name="Employee" id="Employee">
+      <option value="" disabled selected>Choose your employee</option>
+      {% for emp in emps %}
+      {{emp.Name}}
+        <option value="{{emp.Name}}">{{emp.Name}}</option>
+      {% endfor %}
+    </select>
+    </div>
+    <div class="form-group">
+    <label for="remarks">Enter Remarks:</label>
+    <p><textarea name="remarks" class="form-control" id="remarks" rows="4" cols="80" placeholder="Enter Remarks" required></textarea></p>
+    </div>
+
+    <div class="form-group">
+    <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" class="form-control" name="de" value="0">
+    <input type="submit" class="btn btn-primary" value="Add New Header">
+    </div>
+  </form>
+  </div>
+<br>
+    <div class="container">
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">Sales Order Header Editor</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="sample_data" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Serial</th>
+                                    <th>Document Number</th>
+                                    <th>Document Date</th>
+                                    <th>Employee</th>
+                                    <th>Remarks</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                {% for row in sohdata %}
+                                <tr>
+                                    <td data-pk="{{row.id}}"></td>
+                                    <td data-name="DocNum" class="DocNum" data-type="text" data-pk="{{row.id}}">{{row.DocNum}}</td>
+                                    <td data-name="DocDate" class="DocDate" data-type="date" data-pk="{{row.id}}">{{row.DocDate}}</td>
+                                    <td data-name="Employee" class="select Employee" data-type="text" data-pk="{{row.id}}">{{row.Employee}}</td>
+                                  <!--
+                                    <select>
+                                        <option value="{{row.Employee}}" disabled selected>{{row.Employee}}</option>
+                                        {% for emp in emps %}
+                                        {{emp.Name}}
+                                          <option value="{{emp.Name}}">{{emp.Name}}</option>
+                                        {% endfor %}
+                                      </select>
+                                      -->
+
+                                    <td data-name="remarks" class="remarks" data-type="text" data-pk="{{row.id}}">{{row.remarks}}</td>
+
+                                    <td>
+                                      <form class="" action="\sodetail" method="post">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="sohref_id" value= "{{ row.id }}">
+                                        <input type="hidden" name="de" value="-1">
+                                        <input type="submit" class="btn btn-primary" value="DETAIL ENTRY">
+                                      </form>
+                                    </td>
+
+                                    <td>
+                                      <form class="" action="#" method="post">
+                                        <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" class="form-control" name="id" value="{{ row.id }}">
+                                        <input type="hidden" class="form-control" name="de" value="1">
+                                        <input type="submit" class="btn btn-primary" value="DELETE">
+                                      </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+{% endblock%}
