@@ -5,7 +5,7 @@ from Connect_MySQLDB import Connect_To_MySQLDB
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
-from __main__ import app
+from app import app
 
 bcrypt = Bcrypt(app)
 app.secret_key = "\x86<\x05G\xf6\xc1\x8a\x9f^=\xa0\x03d;\xfaQ\x12B;\x95t\xf3\xf2\x9e"

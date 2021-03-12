@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
-from __main__ import app
+from app import app
 
 @app.route("/")
 def home():

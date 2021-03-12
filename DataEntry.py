@@ -9,7 +9,7 @@ from models import *
 #from flaskext.mysql import MySQL
 import pymysql
 
-from __main__ import app
+from app import app
 from Authentication import csrf
 
 @app.route("/soentry", methods=["POST", "GET"])
@@ -127,6 +127,6 @@ def updatesoddata():
             itm = ItemMaster.query.filter_by(itemName=SodObj.itemName).first()
             itemUnitPrice = itm.unitPrice
             SodObj.amount = SodObj.quantity * itemUnitPrice
-        
+
         db.session.commit()
         return json.dumps({'status':'OK'})
